@@ -23,12 +23,12 @@
 
 | 变量 | 必需 | 默认值 | 说明 |
 | :-- | :--: | :--: | :-- |
-| `DF_COOKIE` | 否 | 空 | Deepflood Cookie，多个账号用 `&` 或换行符分隔。仅依赖 Cookie 签到时必填。|
+| `DF_COOKIE` | 是 | 空 | Deepflood Cookie，多个账号用 `&` 或换行符分隔。仅依赖 Cookie 签到时必填。|
 | `USER` / `PASS` | 否 | 空 | 第一组账号的用户名、密码。|
 | `USER1` / `PASS1` ... | 否 | 空 | 更多账号配置，编号递增。|
 | `CLIENTT_KEY` | 账号登录必需 | 空 | YesCaptcha API Key，用于解析 Turnstile 验证码。|
 | `API_BASE_URL` | 否 | `https://api.yescaptcha.com` | YesCaptcha 接口地址，可改为国内节点 `https://cn.yescaptcha.com`。|
-| `DF_RANDOM` | 否 | `true` | 是否在请求中携带随机参数；保持默认即可。|
+| `DF_RANDOM` | 否 | `true` | 默认随机鸡腿签到False是固定5鸡腿。|
 | `GH_PAT` | GitHub Actions 可选 | 空 | Personal Access Token，用于把刷新后的 Cookie 回写到仓库。|
 | 各类通知变量 | 否 | - | 详见 `notify.py`，按需设置对应推送渠道的环境变量。|
 
@@ -71,8 +71,36 @@ ql repo https://github.com/yowiv/NodeSeek-Signin.git
 
 然后在环境变量中添加所需配置。
 
-
 ### GitHub Actions
+
+为了实现自动更新Cookie功能，脚本需要使用GitHub Personal Access Token (PAT)将获取的新Cookie保存到仓库变量中。
+
+#### 1. 创建Personal Access Token
+
+1. 登录您的GitHub账户
+2. 点击右上角头像 → 选择 "Settings"（设置）
+3. 滚动到页面底部 → 点击 "Developer settings"（开发者设置）
+4. 在左侧菜单选择 "Personal access tokens" → 点击 "Tokens (classic)"
+5. 点击 "Generate new token" → 选择 "Generate new token (classic)"
+6. 配置token：
+   - 名称：填写一个描述性名称，如 "NodeSeek签到脚本"
+   - 过期时间：根据需要选择（推荐90天或更长）
+   - 勾选权限：
+     - `repo` (完整的仓库访问权限)
+     - `workflow` (用于管理GitHub Actions)
+7. 点击页面底部的 "Generate token" 按钮
+8. **立即复制生成的token**，关闭页面后将无法再次查看
+
+#### 2. 添加到仓库Secrets
+
+1. 进入您的NodeSeek-Signin仓库
+2. 点击 "Settings" → "Secrets and variables" → "Actions"
+3. 点击 "New repository secret"
+4. 名称填写：`GH_PAT`
+5. 值填写：刚才复制的Personal Access Token
+6. 点击 "Add secret" 保存
+
+完成以上设置后，签到脚本可以自动将有效的Cookie保存到GitHub仓库变量中，下次运行时直接使用，减少重复登录和验证码操作。
 
 仓库已经包含 `deepflood.yml` 工作流，默认会在每天北京时间 0 点运行，也可以手动触发。需要在仓库的 **Settings → Secrets and variables → Actions** 中配置下列条目：
 
@@ -85,7 +113,6 @@ ql repo https://github.com/yowiv/NodeSeek-Signin.git
 | `GH_PAT` | (可选) 用于把刷新后的 Cookie 写回仓库变量 |
 
 其他通知相关 Secrets 也可按需添加。运行时日志会输出每个账号的签到结果；若配置了 `GH_PAT`，Sign 完成后工作流会尝试更新仓库变量 `DF_COOKIE`。
-
 
 ## 🔔 通知说明
 
@@ -108,5 +135,6 @@ ql repo https://github.com/yowiv/NodeSeek-Signin.git
   - 本地环境：默认仅打印，不会写入文件。
 
 ## ⚠️ 免责声明
+
 
 脚本仅供学习、自动化实验与个人效率提升之用。使用前请确保符合 Deepflood 社区及相关服务的使用协议，风险自负。
