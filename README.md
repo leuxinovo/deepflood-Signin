@@ -1,4 +1,4 @@
-# Deepflood Sign
+# Deepflood Signin
 
 自动完成 Deepflood 社区每日签到、统计签到收益，并在需要时更新 Cookie 的 Python 脚本。脚本既可以在本地直接运行，也可以投放到青龙面板或 GitHub Actions 等自动化环境中使用。
 
@@ -138,3 +138,4 @@ ql repo https://github.com/yowiv/NodeSeek-Signin.git
 
 
 脚本仅供学习、自动化实验与个人效率提升之用。使用前请确保符合 Deepflood 社区及相关服务的使用协议，风险自负。
+
