@@ -161,7 +161,7 @@ def session_login(user, password, api_base_url, client_key):
         )
 
         token = solver.solve(
-            url="https://www.deepflood.com/signIn.html",
+            url="https://www.nodeseek.com/signIn.html",
             sitekey="0x4AAAAAAAaNy7leGjewpVyR",
             verbose=True
         )
@@ -475,3 +475,4 @@ if __name__ == "__main__":
             print("所有Cookie已成功保存")
         except Exception as e:
             print(f"保存Cookie变量异常: {e}")
+
