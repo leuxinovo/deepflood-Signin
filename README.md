@@ -66,7 +66,7 @@ CLIENTT_KEY=your_yescaptcha_key
 在青龙面板中执行以下命令克隆本仓库：
 
 ```bash
-ql repo https://github.com/yowiv/NodeSeek-Signin.git
+ql repo https://github.com/yowiv/deepflood-Signin.git
 ```
 
 然后在环境变量中添加所需配置。
@@ -138,4 +138,5 @@ ql repo https://github.com/yowiv/NodeSeek-Signin.git
 
 
 脚本仅供学习、自动化实验与个人效率提升之用。使用前请确保符合 Deepflood 社区及相关服务的使用协议，风险自负。
+
 
